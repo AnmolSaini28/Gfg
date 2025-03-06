@@ -6,35 +6,24 @@ using namespace std;
 // } Driver Code Ends
 
 class Solution {
-    private:
-    int ceilIndex(vector<int>& res , int l , int r , int x){
-        while(r > l){
-            int mid = l + (r-l)/2;
-            if(res[mid] >= x){
-                r = mid;
-            }
-            else{
-                l = mid+1;
-            }
-        }
-        return r;
-    }
+    
   public:
-    int lis(vector<int>& nums) {
-        // code here
-        int n = nums.size();
-        vector <int> res;
-        res.push_back(nums[0]);
+    int lis(vector<int>& arr) {
+        int n = arr.size();
+        vector <int> lis(n,1);
         for(int i=1 ; i<n ; i++){
-            if(nums[i] > res[res.size()-1]){
-                res.push_back(nums[i]);
-            }
-            else {
-                int index = ceilIndex(res,0,res.size()-1,nums[i]);
-                res[index] = nums[i];
+            for(int j=0 ; j<i ; j++){
+                if(arr[j] < arr[i] && lis[i] < lis[j]+1){
+                    lis[i] = lis[j]+1;
+                }
             }
         }
-        return res.size();
+        
+        int res = 0;
+        for(int i=0 ; i<n ; i++){
+            res = max(res,lis[i]);
+        }
+        return res;
     }
 };
 
